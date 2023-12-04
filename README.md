@@ -7,8 +7,6 @@ Everything you need to build a Svelte project, powered by [`create-svelte`](http
 If you're seeing this, you've probably already done this step. Congrats!
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
 
 # create a new project in my-app
 npm create svelte@latest my-app
@@ -33,6 +31,7 @@ To create a production version of your app:
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+## Static Site
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+To create a static site folloow this guide:
+['How to Build a Static SvelteKit Site'](https://www.philkruft.dev/blog/how-to-build-a-static-sveltekit-site)

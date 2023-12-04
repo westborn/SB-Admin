@@ -6,6 +6,9 @@ import path from 'path'
 const config = {
 	kit: {
 		adapter: adapter(),
+		paths: {
+			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
+		},
 		alias: {
 			// these are the aliases and paths to them
 			'@components': path.resolve('./src/lib/components'),
