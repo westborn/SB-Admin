@@ -16,6 +16,14 @@ const config = {
 			'@utils': path.resolve('./src/lib/utils')
 		}
 	},
+	onwarn: (warning) => {
+		if (warning.code === 'ally-autofocus') {
+			console.log(warning)
+			return
+		}
+		warning.message += ' and stuff'
+		return warning
+	},
 
 	preprocess: vitePreprocess()
 }

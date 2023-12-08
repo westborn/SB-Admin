@@ -1,0 +1,70 @@
+<script>
+	import { goto } from '$app/navigation'
+
+	import { currentUserEmail, currentRegistration, entryStore } from '$lib/stores.js'
+	import { sendToServer } from '$lib/Utilities.js'
+
+	import FullRegistration from '../../lib/FullRegistration.svelte'
+
+	let fetchingData = false
+	let errorMessage = ''
+
+	async function handleUserAction(action) {
+		errorMessage = `what the ${action}`
+		fetchingData = true
+		errorMessage = ''
+		const payload = {
+			action,
+			data: {
+				registrationId: $currentRegistration.registrationId
+			}
+		}
+		const response = await sendToServer(payload)
+		if (response.result === 'error') {
+			errorMessage = response.data
+			fetchingData = false
+			return
+		}
+		goto('/')
+	}
+
+	let btnClasses =
+		'text-sm rounded-md bg-primary-300 px-5 py-1 font-semibold text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-400 hover:shadow-lg focus:bg-primary-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-200 active:shadow-lg'
+</script>
+
+<section class="container px-3 mx-auto max-w-prose">
+	{#if $currentUserEmail}
+		{#if $currentRegistration}
+			<p>Options for registration {$currentRegistration.registrationId}</p>
+			{#if errorMessage}
+				<p class="p-1 mt-2 text-red-500">{errorMessage}</p>
+			{:else}
+				<p class="p-1 mt-2">&nbsp</p>
+			{/if}
+			<div class="flex justify-between max-w-[320px] gap-4">
+				<button
+					type="button"
+					on:click={() => handleUserAction('setRegistrationComplete')}
+					class={btnClasses}
+					>Update to Complete
+				</button>
+
+				<button
+					type="button"
+					on:click={() => handleUserAction('clearRegistrationComplete')}
+					class={btnClasses}
+					>Update to NOT Complete
+				</button>
+
+				<button
+					type="button"
+					on:click={() => handleUserAction('produceRegistrationEmail')}
+					class={btnClasses}>Email summary to:</button
+				>
+			</div>
+			<FullRegistration />
+		{/if}
+	{:else}
+		<p>No registration selected - please go to "Select Registration"</p>
+	{/if}
+</section>
