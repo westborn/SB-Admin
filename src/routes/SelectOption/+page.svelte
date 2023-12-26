@@ -8,15 +8,25 @@
 
 	let fetchingData = false
 	let errorMessage = ''
+	let preFlag = false
+	let preData = null
 
 	async function handleUserAction(action) {
 		errorMessage = `what the ${action}`
 		fetchingData = true
 		errorMessage = ''
-		const payload = {
-			action,
-			data: {
-				registrationId: $currentRegistration.registrationId
+		let payload
+		if (action === 'produceRegistrationEmail') {
+			const userEmail = window.prompt('What email address to send to?', $currentUserEmail)
+			console.log(userEmail)
+			payload = {
+				action,
+				data: { registrationEmail: $currentUserEmail, sendToEmail: 'george@westborn.com.au' }
+			}
+		} else {
+			payload = {
+				action,
+				data: $currentRegistration
 			}
 		}
 		const response = await sendToServer(payload)
@@ -25,6 +35,9 @@
 			fetchingData = false
 			return
 		}
+		preData = response
+		preFlag = true
+		return
 		goto('/')
 	}
 
@@ -61,8 +74,16 @@
 					on:click={() => handleUserAction('produceRegistrationEmail')}
 					class={btnClasses}>Email summary to:</button
 				>
+				<button
+					type="button"
+					on:click={() => handleUserAction('listRegistrations')}
+					class={btnClasses}>Registration Email List:</button
+				>
 			</div>
 			<FullRegistration />
+			{#if preFlag}
+				<pre>{JSON.stringify(preData, null, 4)}</pre>
+			{/if}
 		{/if}
 	{:else}
 		<p>No registration selected - please go to "Select Registration"</p>

@@ -7,35 +7,43 @@
 	let fetchingData = false
 	let errorMessage = ''
 
-	async function handleEmailClick() {
-		$currentUserEmail = $currentUserEmail.toLowerCase()
-		if (!validateEmail($currentUserEmail)) {
-			errorMessage = 'Please enter a valid email address'
-			return
+	async function validateEmailAndFetchData(email) {
+		if (!validateEmail(email)) {
+			return { result: 'error', data: 'Please enter a valid email address' }
 		}
-		fetchingData = true
-		errorMessage = ''
 		const payload = {
 			action: 'getDetailsByEmail',
-			data: {
-				email: $currentUserEmail
-			}
+			data: { email }
 		}
-		const response = await sendToServer(payload)
+		try {
+			const response = await sendToServer(payload)
+			return response
+		} catch (error) {
+			return { result: 'error', data: error.message }
+		}
+	}
+
+	function handleServerResponse(response) {
 		if (response.result === 'error') {
-			errorMessage = response.data
-			fetchingData = false
-			return
+			return response.data
 		}
 		if (Object.entries(response.data.registration).length === 0) {
-			errorMessage = 'No registration found for that email address'
-			fetchingData = false
-			return
+			return 'No registration found for that email address'
 		}
 		currentRegistration.set(response.data.registration)
 		entryStore.set(response.data.entries)
 		goto('/SelectOption')
 	}
+
+	async function handleEmailClick() {
+		$currentUserEmail = $currentUserEmail.toLowerCase()
+		fetchingData = true
+		errorMessage = ''
+		const response = await validateEmailAndFetchData($currentUserEmail)
+		errorMessage = handleServerResponse(response)
+		fetchingData = false
+	}
+
 	let btnClasses =
 		'text-sm rounded-md bg-primary-300 px-5 py-1 font-semibold text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-400 hover:shadow-lg focus:bg-primary-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-200 active:shadow-lg'
 </script>

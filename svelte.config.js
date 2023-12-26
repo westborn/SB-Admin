@@ -1,4 +1,3 @@
-import { vitePreprocess } from '@sveltejs/kit/vite'
 import adapter from '@sveltejs/adapter-static'
 import path from 'path'
 
@@ -24,8 +23,9 @@ const config = {
 		warning.message += ' and stuff'
 		return warning
 	},
-
-	preprocess: vitePreprocess()
+	vitePlugin: {
+		inspector: true
+	}
 }
 
 export default config
