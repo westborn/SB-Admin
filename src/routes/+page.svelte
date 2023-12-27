@@ -1,5 +1,6 @@
 <script>
 	import { goto } from '$app/navigation'
+	import { base } from '$app/paths'
 
 	import { currentUserEmail, currentRegistration, entryStore } from '$lib/stores.js'
 	import { validateEmail, sendToServer } from '$lib/Utilities.js'
@@ -32,7 +33,7 @@
 		}
 		currentRegistration.set(response.data.registration)
 		entryStore.set(response.data.entries)
-		goto('/SelectOption')
+		goto(`${base}/SelectOption`)
 	}
 
 	async function handleEmailClick() {

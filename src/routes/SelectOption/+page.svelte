@@ -1,6 +1,4 @@
 <script>
-	import { goto } from '$app/navigation'
-
 	import { currentUserEmail, currentRegistration, entryStore } from '$lib/stores.js'
 	import { sendToServer } from '$lib/Utilities.js'
 
@@ -12,7 +10,6 @@
 	let preData = null
 
 	async function handleUserAction(action) {
-		errorMessage = `what the ${action}`
 		fetchingData = true
 		errorMessage = ''
 		let payload
@@ -38,7 +35,6 @@
 		preData = response
 		preFlag = true
 		return
-		goto('/')
 	}
 
 	let btnClasses =

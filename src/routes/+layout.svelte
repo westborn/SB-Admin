@@ -1,33 +1,13 @@
 <script>
 	import '../app.css'
-	import { dev } from '$app/environment'
-	const routes = dev
-		? [
-				['[Select Registration]', '/'],
-				['[Select Option]', 'SelectOption'],
-				['Two', 'two'],
-				['Three', 'three']
-		  ]
-		: [
-				['[Select Registration]', '/'],
-				['[Select Option]', 'SelectOption'],
-				['Two', 'two'],
-				['Three', 'three']
-		  ]
+	import { base } from '$app/paths'
 
-	// 	const routes = dev
-	// ? [
-	// 		['[Select Registration]', '/'],
-	// 		['[Select Option]', 'SelectOption'],
-	// 		['Two', 'two'],
-	// 		['Three', 'three']
-	//   ]
-	// : [
-	// 		['[Select Registration]', 'index.html'],
-	// 		['[Select Option]', 'SelectOption.html'],
-	// 		['Two', 'two.html'],
-	// 		['Three', 'three.html']
-	//   ]
+	const routes = [
+		['[Select Registration]', `${base}`],
+		['[Select Option]', `${base}/SelectOption`],
+		['Two', `${base}/two`],
+		['Three', `${base}/three`]
+	]
 </script>
 
 <svelte:head>
