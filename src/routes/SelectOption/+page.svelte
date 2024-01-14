@@ -18,7 +18,7 @@
 			console.log(userEmail)
 			payload = {
 				action,
-				data: { registrationEmail: $currentUserEmail, sendToEmail: 'george@westborn.com.au' }
+				data: { registrationEmail: $currentUserEmail, sendToEmail: userEmail }
 			}
 		} else {
 			payload = {
